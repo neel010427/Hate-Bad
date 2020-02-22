@@ -1,4 +1,4 @@
-from pymongo import MongoClient
+#from pymongo import MongoClient
 import json
 
 #client = MongoClient('mongodb+srv://haspburn71280:H8IsNoGood@hatebaddb-kbv0e.gcp.mongodb.net/test?retryWrites=true&w=majority')
@@ -7,7 +7,7 @@ import json
 
 allFileData = dict()
 
-with open('dataset/metadata.csv', 'r') as info:
+with open('metadata.csv', 'r') as info:
 	line = info.readline()
 	line = info.readline()
 	i = 0
@@ -20,5 +20,5 @@ with open('dataset/metadata.csv', 'r') as info:
 
 print(allFileData)
 
-with open('dataset/hateFileData.json', 'w') as f:
+with open('hateFileData.json', 'w') as f:
 	json.dump(allFileData, f)
