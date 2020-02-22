@@ -1,5 +1,5 @@
 import sys
-import twiKey
+import keys.twiKey as twiKey
 import tweepy
 import json
 
@@ -18,7 +18,7 @@ api = tweepy.API(auth)
 
 stream_listener = StreamListener()
 stream = tweepy.Stream(auth = api.auth, listener = stream_listener)
-stream.filter(track = ['hi'])
+stream.filter(track = ['Nathan is cool'])
 '''
 def get_tweet(api, username):
     page = random.randint(1,5)
