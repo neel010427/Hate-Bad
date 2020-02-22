@@ -34,5 +34,8 @@ db = client.hatebad
 test = db.hateTestSet
 train = db.hateTrainingSet
 
+test.drop()
+train.drop()
+
 test.insert_many(testMetadata)
 train.insert_many(trainMetadata)
