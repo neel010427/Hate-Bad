@@ -59,12 +59,13 @@ from pymongo import MongoClient
 
 class TweetModel:
   def __init__(self, name='name', training_df=None, test_df=None, load_file=False):
+    self.name = name
+    self.model = None
+    self.test_df = self.training_df = self.test_target = self.training_target = 0
+    self.cutoff = 0.7
     if load_file:
-      pass
+      self.model = tf.keras.models.load_model('saved_model\\' + name)
     else:
-      self.model = None
-      self.test_df = self.training_df = self.test_target = self.training_target = 0
-      self.cutoff = 0
       self.get_data(training_df, test_df)
       self.embedding = "https://tfhub.dev/google/tf2-preview/gnews-swivel-20dim/1"
 
@@ -109,13 +110,11 @@ class TweetModel:
     for name, value in zip(self.model.metrics_names, results):
       print("%s: %.3f" % (name, value))
     
-    prediction = self.model.predict(test.batch(16))
+    prediction = self.model.predict(test.batch(num_batch))[:,0]
     prediction_df = self.test_df.copy()
-    prediction_df['prediction'] = prediction[:,0] > 0.7
+    prediction_df['prediction'] = prediction > self.cutoff
     prediction_df['prediction'] = prediction_df['prediction'].map(lambda x: 1 if x else 0)
     prediction_df['actual'] = self.test_target
-    print(prediction_df)
-    print(prediction_df.dtypes)
 
     print('Fraction of false positives: {}'.format(len(prediction_df[prediction_df['prediction'] > prediction_df['actual']])/len(prediction_df)))
     print('Fraction of false positives: {}'.format(len(prediction_df[prediction_df['prediction'] < prediction_df['actual']])/len(prediction_df)))
@@ -123,10 +122,16 @@ class TweetModel:
   def predict_model(self, input_data, num_batch=16):
     df = input_data.astype({'text': 'U'})
     df = pd.DataFrame(df['text'])
-    test = tf.data.Dataset.from_tensor_slices(df['text'].values)
-    predictions = self.model.predict(test.batch(num_batch))
-    return pd.DataFrame({'text': df['text'], 'prediction': predictions[:,0]})
-
+    df_data = tf.data.Dataset.from_tensor_slices(df['text'].values)
+    prediction = self.model.predict(df_data.batch(num_batch))[:,0]
+    prediction_df = df.copy()
+    prediction_df['prediction'] = prediction > self.cutoff
+    prediction_df['prediction'] = prediction_df['prediction'].map(lambda x: 1 if x else 0)
+    return prediction_df
+  
+  def save_model(self, save_as='', directory=''):
+    name = save_as if not save_as == '' else self.name
+    self.model.save('saved_model\\' + name)
 
 client = MongoClient('mongodb+srv://haspburn71280:H8IsNoGood@hatebaddb-kbv0e.gcp.mongodb.net/test?retryWrites=true&w=majority')
 db = client.hatebad #database
@@ -139,6 +144,10 @@ predict_df = pd.DataFrame(db.hateTestSet.find())
 predict_df['label'] = predict_df['label'].map(lambda x: 1 if x == 'hate' else 0)
 
 model = TweetModel(name='hate', training_df=training_df, test_df=test_df)
-model.train_model(num_epoch=20)
+model.train_model(num_epoch=5)
 model.test_model()
 model.predict_model(predict_df)
+model.save_model()
+
+model2 = TweetModel(load_file=True, name='hate')
+print(model2.predict_model(predict_df))
