@@ -3,13 +3,14 @@ import keys.twiKey as twiKey
 import tweepy
 import json
 import pandas
+from TweetModel import TweetModel
 
 class StreamListener(tweepy.StreamListener):
     def __init__(self,api=None):
         super(StreamListener, self).__init__()
         self.count = 0
     def on_status(self, status):
-        end = 5
+        end = 10
         try:
             if self.count == end:
                 return False
@@ -39,10 +40,10 @@ data = pandas.DataFrame(newDict)
 id = data.iloc[:,0]
 text = data.iloc[:,1]
 
-def kyleGay(tweetText):
-    return tweetText
+negativeData = TweetModel(name='hate', load_file=True)
 
-neg = pandas.concat([id,kyleGay(text)],axis=1)
+neg = pandas.concat([id,negativeData.predict_model(data)],axis=1)
+print(neg)
 # for i in pos.index:
 #     if pos['pos'][i] == 1:
 #         api.retweet(i['id'])
@@ -50,6 +51,6 @@ neg = pandas.concat([id,kyleGay(text)],axis=1)
 # for i in tweets.index:
 #     #if neg['pos'][i]==1:
 #         api.create_favorite(tweets['id'][i])
-neg = neg[neg['predictions'] == 1]
-for i in neg:
+neg = neg[neg.prediction == 1]
+for i in neg.iloc[:,0]:
     api.create_favorite(i)
