@@ -1,25 +1,95 @@
 import sys
-import twiKey
+import keys.twiKey as twiKey
 import tweepy
 import json
-
-import time
-import random
+import requests 
+    
 
 class StreamListener(tweepy.StreamListener):
     def on_status(self, status):
-        print(status)
+        try:
+            x = {'id': status._json['id_str'], 'text': status._json['text']}
+            if (not status._json['text'].startswith('RT')) and (status._json['lang'] == 'en') and (not status._json['text'].startswith('@')):
+                with open("tweets.json", 'w') as tf:
+                    json.dump(x,tf)
+                return True
+        except BaseException as e:
+            print("Error on_status %s" % str(e))
+
     def on_error(self,status_code):
         print(status_code)
-
+'''
+    @property
+    def add_tweet_to_collection(self):
+        """ :reference: https://developer.twitter.com/en/docs/tweets/curate-a-collection/api-reference/post-collections-entries-add
+        """
+        return bind_api(
+            api=self,
+            path='/collections/entries/add.json',
+            method='POST',
+            payload_type='json',
+            allowed_param=['id', 'tweet_id'],
+            require_auth=True
+    )
+'''
 auth = tweepy.OAuthHandler(twiKey.apiKey, twiKey.apiKeySec)
 auth.set_access_token(twiKey.accTok, twiKey.accTokSec)
 api = tweepy.API(auth)
 
+
+
 stream_listener = StreamListener()
 stream = tweepy.Stream(auth = api.auth, listener = stream_listener)
-stream.filter(track = ['hi'])
+#api.add_tweet_to_collection(1231343829782941697,1231369195754930177)
+# POST https://api.twitter.com/1.1/collections/entries/add.json?tweet_id=1231369195754930177&id=custom-1231343829782941697
 '''
+API_ENDPOINT = "https://api.twitter.com/1.1/collections/entries/add.json"
+
+data = {'auth': twiKey.apiKey,
+        'Name': "Example", 
+        'id': 1231343829782941697, 
+        'tweet_id': 1231369195754930177, 
+        } 
+
+r = requests.post(url = API_ENDPOINT, data = data) 
+
+pastebin_url = r.text 
+print("The pastebin URL is:%s"%pastebin_url) 
+'''
+stream.sample()
+
+
+'''
+class streamer():
+    def stream_tweets(self, out, hash_tag):
+        stream_listener = StreamListener(out)
+        auth = tweepy.OAuthHandler(twiKey.apiKey, twiKey.apiKeySec)
+        auth.set_access_token(twiKey.accTok, twiKey.accTokSec)
+        stream = tweepy.Stream(auth, stream_listener)
+        stream.filter(track = hash_tag)
+
+class StreamListener(tweepy.StreamListener): 
+    def _init_(self, out):
+        self.out = out
+    def on_status(self, status):
+        try:
+            with open(self.out, 'a') as tf:
+                tf.write(status)
+                print(status)
+            return true
+        except BaseException as e:
+            print("Error: %s" % str(e))
+        return true
+    def on_error(self,status_code):
+        print(status_code)
+
+tag = ["neel katur"]
+output = "tweets.json"
+twStream = streamer()
+twStream.stream_tweets(output,tag)
+
+
+
 def get_tweet(api, username):
     page = random.randint(1,5)
     tweet = api.user_timeline(username, page = page)
