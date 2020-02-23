@@ -1,10 +1,6 @@
 import TweetModel as tm
 import pandas as pd
 import numpy as np
-<<<<<<< HEAD
-=======
-import tensorflow as tf
->>>>>>> f943a853fa16bbc8b6a47658ad35f396ba3dac2d
 from pymongo import MongoClient
 
 client = MongoClient('mongodb+srv://haspburn71280:H8IsNoGood@hatebaddb-kbv0e.gcp.mongodb.net/test?retryWrites=true&w=majority')
@@ -16,7 +12,7 @@ test_df = pd.DataFrame(db.hateTestSet.find())
 test_df['label'] = test_df['label'].map(lambda x: 1 if x == 'hate' else 0)
 
 model = tm.TweetModel(name='hate', training_df=training_df, test_df=test_df)
-model.train_model(num_epoch=30)
+model.train_model(num_epoch=20)
 model.test_model()
 model.save_model()
 
@@ -27,6 +23,6 @@ test_df = pd.DataFrame(db.positiveTestSet.aggregate([{'$sample': {'size':10000}}
 test_df['label'] = test_df['score']
 
 model = tm.TweetModel(name='positive', training_df=training_df, test_df=test_df)
-model.train_model(num_epoch=25, num_batch=32)
+model.train_model(num_epoch=15, num_batch=32)
 model.test_model()
 model.save_model()
