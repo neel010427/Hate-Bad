@@ -8,17 +8,12 @@ auth = tweepy.OAuthHandler(twiKey.apiKey, twiKey.apiKeySec)
 auth.set_access_token(twiKey.accTok, twiKey.accTokSec)
 api = tweepy.API(auth)
 
-#
-# for i in pos:
-#     api.retweet(i['id'])
 
-open("neg.txt",'w')
-neg = json.load(open("tweets.json"))
-for i in neg:
-    with open("neg.txt",'a') as negid:
-        json.dump(i["id"],negid)
-        negid.write("\n")
-api.create_favorite(1231491572987985925)
+for i in pos['id']:
+    api.retweet(i['id'])
+
+for i in neg['id']:
+    api.create_favorite(1231491572987985925)
     
 
 # #Define your keys from the developer portal
