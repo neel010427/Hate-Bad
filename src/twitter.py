@@ -50,6 +50,6 @@ neg = pandas.concat([id,kyleGay(text)],axis=1)
 # for i in tweets.index:
 #     #if neg['pos'][i]==1:
 #         api.create_favorite(tweets['id'][i])
-neg = neg[predictions == 1]
+neg = neg[neg['predictions'] == 1]
 for i in neg:
     api.create_favorite(i)
