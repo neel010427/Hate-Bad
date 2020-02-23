@@ -9,11 +9,11 @@ auth.set_access_token(twiKey.accTok, twiKey.accTokSec)
 api = tweepy.API(auth)
 
 
-for i in pos['id']:
+for i in pos:
     api.retweet(i['id'])
 
-for i in neg['id']:
-    api.create_favorite(1231491572987985925)
+for i in neg:
+    api.create_favorite(i['id'])
     
 
 # #Define your keys from the developer portal
