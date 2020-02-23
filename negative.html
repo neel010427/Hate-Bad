@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Hate Bad</title>
+<meta charset="UTF-8">
+
+<script language="javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="icon" href="HB.png">
+
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%;
+}
+
+#tweet {
+  width: 500px !important;
+}
+
+#tweet iframe {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.print {
+	display:none
+}
+
+ @media print {
+  html, body {visibility:hidden;
+    height:100%; 
+    margin: 0 !important; 
+    padding: 0 !important;
+    overflow: hidden;
+  };
+
+    .tweet {visibility:visible};
+    .noprint {display:none};
+	
+}
+
+
+
+
+</style>
+
+<head>
+    <link rel="icon" href="C:\Users\neelo\Pictures\Screenshots\HB.png">
+</head>
+<body>
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-blue w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-blue" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a class = "w3-bar-item w3-padding-large"><b>Hate</b>Bad</a>
+    <div class="w3-right">
+        <a href="positive.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Positive</a>
+        <a href="negative.html" class="w3-bar-item w3-button w3-padding-large w3-white">Negative</a>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-blue w3-center" style="padding:128px 16px" id="noprint">
+  <h1 class="w3-margin w3-jumbo">No-good Negative :(</h1>
+</header>
+
+<!-- First Grid -->
+  <div class="w3-content w3-center">
+      <h1 class = "w3-center">Negative Tweets, lets shred them</h1>   
+      <p>We all know that negativity sucks. So why don't we put it where negativity belongs. If you feel like getting rid of some negativity in the world, press the
+          print button, it'll allow you to print out the negative tweet directly into a shredder. However, there may also be a little surprise 
+          waiting for you down there...
+      </p>
+      <div class = "tweet">
+        <a class="twitter-timeline" href="https://twitter.com/hate_no_good/likes?ref_src=twsrc%5Etfw">Tweets Liked by @hate_no_good</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
+    <button onclick="javascript:window.print()" class="btn-print w3-button w3-blue">Shred Tweets</button>
+    <a href="cute.html" class="btn-print w3-button w3-blue">Cute Emergency</a>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity">  
+  <div class="w3-xlarge w3-padding-32">
+
+    <a href="https://twitter.com/hate_no_good" target="_blank" class="fa fa-twitter"></a>
+ </div>
+</footer>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+
+</body>
+</html>
