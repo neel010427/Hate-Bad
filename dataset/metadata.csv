@@ -1,4 +1,4 @@
-file_id,user_id,subforum_id,num_contexts,label
+file_id,user_id,subforum,context,label
 12834217_1,572066,1346,0,noHate
 12834217_2,572066,1346,0,noHate
 12834217_3,572066,1346,0,noHate
