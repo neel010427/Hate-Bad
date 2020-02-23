@@ -54,21 +54,7 @@ api = tweepy.API(auth)
 
 stream_listener = StreamListener()
 stream = tweepy.Stream(auth = api.auth, listener = stream_listener)
-#api.add_tweet_to_collection(1231343829782941697,1231369195754930177)
-# POST https://api.twitter.com/1.1/collections/entries/add.json?tweet_id=1231369195754930177&id=custom-1231343829782941697
-'''
-API_ENDPOINT = "https://api.twitter.com/1.1/collections/entries/add.json"
-
-data = {'auth': twiKey.apiKey,
-        'Name': "Example", 
-        'id': 1231343829782941697, 
-        'tweet_id': 1231369195754930177, 
-        } 
-
-r = requests.post(url = API_ENDPOINT, data = data) 
-
-pastebin_url = r.text 
-print("The pastebin URL is:%s"%pastebin_url) 
+stream.filter(track = ['Nathan is cool'])
 '''
 open("tweets.json", 'w')
 stream.sample()
