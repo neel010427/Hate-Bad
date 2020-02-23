@@ -1,6 +1,10 @@
 import TweetModel as tm
 import pandas as pd
 import numpy as np
+<<<<<<< HEAD
+=======
+import tensorflow as tf
+>>>>>>> f943a853fa16bbc8b6a47658ad35f396ba3dac2d
 from pymongo import MongoClient
 
 client = MongoClient('mongodb+srv://haspburn71280:H8IsNoGood@hatebaddb-kbv0e.gcp.mongodb.net/test?retryWrites=true&w=majority')

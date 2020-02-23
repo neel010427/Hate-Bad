@@ -36,4 +36,20 @@ stream = tweepy.Stream(auth = api.auth, listener = stream_listener)
 open("tweets.json", 'w')
 stream.sample()
 data = pandas.DataFrame(newDict)
-print(data)
+id = data.iloc[:,0]
+text = data.iloc[:,1]
+
+def kyleGay(tweetText):
+    return tweetText
+
+neg = pandas.concat([id,kyleGay(text)],axis=1)
+# for i in pos.index:
+#     if pos['pos'][i] == 1:
+#         api.retweet(i['id'])
+
+# for i in tweets.index:
+#     #if neg['pos'][i]==1:
+#         api.create_favorite(tweets['id'][i])
+neg = neg[predictions == 1]
+for i in neg:
+    api.create_favorite(i)

@@ -78,4 +78,27 @@ class TweetModel:
   
   def save_model(self, save_as='', directory=''):
     name = save_as if not save_as == '' else self.name
+<<<<<<< HEAD
     self.model.save('saved_model\\' + name)
+=======
+    self.model.save('saved_model\\' + name)
+
+client = MongoClient('mongodb+srv://haspburn71280:H8IsNoGood@hatebaddb-kbv0e.gcp.mongodb.net/test?retryWrites=true&w=majority')
+db = client.hatebad #database
+training_df = pd.DataFrame(db.hateTrainingSet.find())
+training_df['label'] = training_df['label'].map(lambda x: 1 if x == 'hate' else 0)
+test_df = pd.DataFrame(db.hateTestSet.find())
+test_df['label'] = test_df['label'].map(lambda x: 1 if x == 'hate' else 0)
+
+predict_df = pd.DataFrame(db.hateTestSet.find())
+predict_df['label'] = predict_df['label'].map(lambda x: 1 if x == 'hate' else 0)
+
+model = TweetModel(name='hate', training_df=training_df, test_df=test_df)
+model.train_model(num_epoch=5)
+model.test_model()
+model.predict_model(predict_df)
+model.save_model()
+
+model2 = TweetModel(load_file=True, name='hate')
+print(model2.predict_model(predict_df))
+>>>>>>> f943a853fa16bbc8b6a47658ad35f396ba3dac2d
