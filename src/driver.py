@@ -11,7 +11,7 @@ training_df['label'] = training_df['label'].map(lambda x: 1 if x == 'hate' else 
 test_df = pd.DataFrame(db.hateTestSet.find())
 test_df['label'] = test_df['label'].map(lambda x: 1 if x == 'hate' else 0)
 
-model = tm.TweetModel(name='hate', training_df=training_df, test_df=test_df)
+model = tm.TweetModel(name='hate', training_df=training_df, test_df=test_df, cutoff=0.6)
 model.train_model(num_epoch=15)
 model.test_model()
 model.save_model()
@@ -22,7 +22,7 @@ training_df['label'] = training_df['score']
 test_df = pd.DataFrame(db.positiveTestSet.aggregate([{'$sample': {'size':10000}}]))
 test_df['label'] = test_df['score']
 
-model = tm.TweetModel(name='positive', training_df=training_df, test_df=test_df)
+model = tm.TweetModel(name='positive', training_df=training_df, test_df=test_df, cutoff=0.8)
 model.train_model(num_epoch=20, num_batch=32)
 model.test_model()
 model.save_model()

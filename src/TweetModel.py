@@ -6,11 +6,11 @@ import tensorflow_datasets as tfds
 from tensorflow import keras
 
 class TweetModel:
-  def __init__(self, name='name', training_df=None, test_df=None, load_file=False):
+  def __init__(self, name='name', training_df=None, test_df=None, load_file=False, cutoff=0.7):
     self.name = name
     self.model = None
     self.test_df = self.training_df = self.test_target = self.training_target = 0
-    self.cutoff = 0.7
+    self.cutoff = cutoff
     if load_file:
       self.model = tf.keras.models.load_model('saved_model\\' + name)
     else:
@@ -50,7 +50,6 @@ class TweetModel:
               loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['binary_accuracy'])
     self.model.fit(training.shuffle(len(self.training_df)).batch(num_batch), epochs=num_epoch, verbose=1)
-    self.cutoff = self.model.evaluate(test.batch(num_batch), verbose=0)[1]
 
   def test_model(self, num_batch=16):
     test = tf.data.Dataset.from_tensor_slices((self.test_df['text'].values, self.test_target))
