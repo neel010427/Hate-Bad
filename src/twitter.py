@@ -2,16 +2,30 @@ import sys
 import keys.twiKey as twiKey
 import tweepy
 import json
-import requests 
+import requests
+import time 
     
 
 class StreamListener(tweepy.StreamListener):
+    def __init__(self,api=None):
+        super(StreamListener, self).__init__()
+        self.count = 0
     def on_status(self, status):
+        end = 5
         try:
-            x = {'id': status._json['id_str'], 'text': status._json['text']}
+            if self.count == end:
+                return False
             if (not status._json['text'].startswith('RT')) and (status._json['lang'] == 'en') and (not status._json['text'].startswith('@')):
-                with open("tweets.json", 'w') as tf:
+                x = {'id': status._json['id_str'], 'text': status._json['text']}
+                with open("tweets.json", 'a') as tf:
+                    if self.count == 0:
+                        tf.write('[')
                     json.dump(x,tf)
+                    if self.count != end-1:
+                        tf.write(',\n')
+                    else:
+                        tf.write(']')
+                    self.count += 1
                 return True
         except BaseException as e:
             print("Error on_status %s" % str(e))
@@ -56,6 +70,7 @@ r = requests.post(url = API_ENDPOINT, data = data)
 pastebin_url = r.text 
 print("The pastebin URL is:%s"%pastebin_url) 
 '''
+open("tweets.json", 'w')
 stream.sample()
 
 

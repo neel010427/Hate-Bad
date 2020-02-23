@@ -2,11 +2,15 @@
 import keys.twiKey as twiKey
 #import requests
 import tweepy
+import json
 
 auth = tweepy.OAuthHandler(twiKey.apiKey, twiKey.apiKeySec)
 auth.set_access_token(twiKey.accTok, twiKey.accTokSec)
 api = tweepy.API(auth)
-api.retweet(1231410006337171458)
+
+pos = json.load(open("tweets.json"))
+for i in pos:
+    api.retweet(i['id'])
 
 # #Define your keys from the developer portal
 # client_key = twiKey.apiKey
