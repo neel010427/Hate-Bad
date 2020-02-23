@@ -1,5 +1,7 @@
 import TweetModel as tm
 import pandas as pd
+import numpy as np
+import tensorflow as tf
 from pymongo import MongoClient
 
 def init_models():
@@ -21,8 +23,8 @@ def init_models():
     test_model1 = tm.Model(data=training, test_data=test)
     test_model1.test_model()
     output = test_model1.predict(test)
-    print(i for i in output)
-    print(test.head())
+    print(output)
+
 
     # test = pd.DataFrame(db.positiveTestSet.find())
     # test = test.astype({'text': 'U', 'label': 'U'})

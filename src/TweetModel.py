@@ -45,7 +45,8 @@ class Model:
     print("Test set accuracy: {accuracy}".format(**test_eval_result))
   
   def predict(self, input_data, _target='score'):
-    data_input_fn = tf.compat.v1.estimator.inputs.pandas_input_fn(
-      input_data['text'], input_data[_target], shuffle=False)
-    result = self.model.predict(input_fn=data_input_fn, predict_keys=[_target])
+    data_input_fn = tf.compat.v1.estimator.inputs.pandas_input_fn(input_data['text'], shuffle=False)
+    result = self.model.predict(input_fn=data_input_fn, predict_keys=input_data[_target])
+    for r in self.model.predict(input_fn=data_input_fn):
+      print(r)
     return result
