@@ -41,9 +41,12 @@ id = data.iloc[:,0]
 text = data.iloc[:,1]
 
 negativeData = TweetModel(name='hate', load_file=True)
+postiveData = TweetModel(name = 'positive', load_file = True)
 
 neg = pandas.concat([id,negativeData.predict_model(data)],axis=1)
 print(neg)
+pos = pandas.concat([id,postiveData.predict_model(data)],axis =1)
+print(pos)
 # for i in pos.index:
 #     if pos['pos'][i] == 1:
 #         api.retweet(i['id'])
@@ -54,3 +57,6 @@ print(neg)
 neg = neg[neg.prediction == 1]
 for i in neg.iloc[:,0]:
     api.create_favorite(i)
+pos = pos[pos.prediction ==1]
+for i in pos.iloc[:,0]:
+    api.retweet(i)
