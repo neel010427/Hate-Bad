@@ -2,11 +2,19 @@
 import keys.twiKey as twiKey
 #import requests
 import tweepy
+import json
 
 auth = tweepy.OAuthHandler(twiKey.apiKey, twiKey.apiKeySec)
 auth.set_access_token(twiKey.accTok, twiKey.accTokSec)
 api = tweepy.API(auth)
-api.retweet(1231410006337171458)
+
+
+for i in pos['id']:
+    api.retweet(i['id'])
+
+for i in neg['id']:
+    api.create_favorite(1231491572987985925)
+    
 
 # #Define your keys from the developer portal
 # client_key = twiKey.apiKey
