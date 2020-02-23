@@ -1,13 +1,42 @@
+import TweetModel as tm
+import pandas as pd
 from pymongo import MongoClient
 
-client = MongoClient('mongodb+srv://haspburn71280:H8IsNoGood@hatebaddb-kbv0e.gcp.mongodb.net/test?retryWrites=true&w=majority')
-db = client.hatebad
-test = db.hateTestSet
+def init_models():
+    client = MongoClient('mongodb+srv://haspburn71280:H8IsNoGood@hatebaddb-kbv0e.gcp.mongodb.net/test?retryWrites=true&w=majority')
+    db = client.hatebad #database
 
-#testDoc = {"First Name":"Kyle", "Last Name":"Zhou", "Age":20, "Urmum":"gay"}
-#test.insert_one(testDoc)
+    test = pd.DataFrame(db.hateTestSet.find())
+    test = test.astype({'text': 'U', 'label': 'U', 'user': 'U'})
+    test = test.drop(labels=['_id','user'], axis='columns')
+    test['score'] = test['label'].map(lambda x: 1 if x == 'hate' else 0)
 
-x = test.find({})
+    training = pd.DataFrame(db.hateTrainingSet.find()) #table
+    training = training.astype({'text': 'U', 'label': 'U', 'user': 'U'})
+    training = training.drop(labels=['_id','user'], axis='columns')
+    training['score'] = training['label'].map(lambda x: 1 if x == 'hate' else 0)
 
-for i in x:
-	print(type(i['text']))
+    print(test.head())
+    thing = test['text']
+    test_model1 = tm.Model(data=training, test_data=test)
+    test_model1.test_model()
+    output = test_model1.predict(test)
+    print(i for i in output)
+    print(test.head())
+
+    # test = pd.DataFrame(db.positiveTestSet.find())
+    # test = test.astype({'text': 'U', 'label': 'U'})
+    # test = test.drop(labels=['_id'], axis='columns')
+    # test['score'] = test['label'].map(lambda x: 1 if x == 'hate' else 0)
+
+    # training = pd.DataFrame(db.positiveTrainingSet.find()) #table
+    # training = training.astype({'text': 'U', 'label': 'U'})
+    # training = training.drop(labels=['_id'], axis='columns')
+    # training['score'] = training['label'].map(lambda x: 1 if x == 'hate' else 0)
+
+    test_model2 = tm.Model(data=training, test_data=test)
+    test_model2.test_model()
+
+    return test_model1, test_model2
+
+bad, good = init_models()
