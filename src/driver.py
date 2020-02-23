@@ -20,7 +20,7 @@ def init_models():
 
     print(test.head())
     thing = test['text']
-    test_model1 = tm.Model(data=training, test_data=test)
+    test_model1 = tm.Model(name='hate', data=training, test_data=test, load_data=True)
     test_model1.test_model()
     output = test_model1.predict(test)
     print(output)
