@@ -10,7 +10,7 @@ class StreamListener(tweepy.StreamListener):
         super(StreamListener, self).__init__()
         self.count = 0
     def on_status(self, status):
-        end = 10
+        end = 50
         try:
             if self.count == end:
                 return False
